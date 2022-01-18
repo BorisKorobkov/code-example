@@ -1,0 +1,21 @@
+name: Deploy to Portainer UAT
+
+on:
+  push:
+    tags:
+      - "uat/*" # For example: "uat/1.10.2"
+
+jobs:
+  # Build
+  # It's not necessary to build an image here. We already did this in qat.yml
+
+  # Deploy
+  deploy-uat:
+    uses: boriskorobkov/code-example/.github/workflows/_deploy.yml@master
+    with:
+      PORTAINER_STACK: boriskorobkov/code-example-uat
+    secrets:
+      PORTAINER_HOST: ${{ secrets.PORTAINER_HOST }}
+      PORTAINER_USERNAME: ${{ secrets.PORTAINER_USERNAME }}
+      PORTAINER_PASSWORD: ${{ secrets.PORTAINER_PASSWORD }}
+      PORTAINER_SWARM_ID: ${{ secrets.PORTAINER_SWARM_ID }}

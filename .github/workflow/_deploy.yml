@@ -1,0 +1,74 @@
+name: Deploy to Portainer
+
+on:
+  workflow_call:
+
+    inputs:
+      PORTAINER_STACK:
+        description: "Portainer stack name"
+        required: true
+        type: string
+      STACKFILE:
+        description: "docker-compose.yml file.   For example: /dev/null (empty file) or docker/docker-compose.yml (non-empty file)"
+        required: false
+        default: "docker/docker-compose.yml"
+        type: string
+      ENVFILE:
+        description: "docker-compose.env file.   For example: /dev/null (empty file) or docker/docker-compose.env (non-empty file)"
+        required: false
+        default: "docker/docker-compose.env"
+        type: string
+      VERSION_FROM_TAG:
+        description: "Serial number of '/' in git tag. For example: tag is ':refs/tags/QAT/VERSION'. 4 - VERSION"
+        required: false
+        default: 4
+        type: number
+
+    secrets:
+      # Portainer
+      PORTAINER_HOST:
+        required: true
+      PORTAINER_USERNAME:
+        required: true
+      PORTAINER_PASSWORD:
+        required: true
+      PORTAINER_SWARM_ID:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Remove comments from ENV-file
+        run: |
+          sed -i 's/^# .*$//' ${{ inputs.ENVFILE }}
+          cat ${{ inputs.ENVFILE }}
+
+      - name: Import ENV-variables
+        run: |
+          while read line; do
+            echo "$line" >> $GITHUB_ENV
+          done < ${{ inputs.ENVFILE }}
+
+      - name: Create some ENV-variables
+        run: |
+          echo "PORTAINER_STACK=${{ inputs.PORTAINER_STACK }}" >> $GITHUB_ENV
+          echo "TRAEFIK_NAMESPACE=$(echo $URL_NAMESPACE | sed 's/\./-/g')" >> $GITHUB_ENV
+          echo "VERSION=$(echo $GITHUB_REF | cut -d / -f ${{ inputs.VERSION_FROM_TAG }} | sed 's/^$/latest/')" >> $GITHUB_ENV
+
+      - name: Inject ENV-variables into STACKFILE. Console docker-compose can do this itself, but this github action - can't
+        run: cat ${{ inputs.STACKFILE }} | envsubst >> stackfile.yml && cat stackfile.yml
+
+      # https://github.com/marketplace/actions/deploy-a-portainer-stack
+      - name: Deploy stack to Portainer
+        uses: carlrygart/portainer-stack-deploy@v1
+        with:
+          portainer-host: ${{ secrets.PORTAINER_HOST }}
+          username: ${{ secrets.PORTAINER_USERNAME }}
+          password: ${{ secrets.PORTAINER_PASSWORD }}
+          swarm-id: ${{ secrets.PORTAINER_SWARM_ID }}
+          stack-name: ${{ inputs.PORTAINER_STACK }}
+          stack-definition: 'stackfile.yml'
