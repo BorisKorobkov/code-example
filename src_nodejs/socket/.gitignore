@@ -1,0 +1,7 @@
+config.json
+node_modules/
+logs/*.log
+logs/*.err
+ssl/cert.key
+ssl/request.pem
+ssl/cert.crt

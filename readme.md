@@ -2,7 +2,7 @@
 
 ## Prologue
 
-When I was interviewed like a backend-developer, one of the tasks was:
+When I was interviewed like a PHP backend developer, one of the tasks was:
 
 _Create a site from scratch in pure PHP without using third-party libraries (except CSS). 
 It should be a blog with ~~blackjack and hookers~~ tasks and (optional) comments._
@@ -13,7 +13,10 @@ The idea of MVC is based on Yii framework, but I created everything from scratch
 
 ## Epilogue
 
-Later I added `.github/` and `docker/` to show my knowledge as a DevOps.
+Later I added:
+
+* `.github/` and `docker/` to show my knowledge as a DevOps.
+* `src_nodejs/` to show my knowledge as a Node.JS developer.
 
 ## Install
 

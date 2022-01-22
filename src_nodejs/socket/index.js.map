@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "index.js",
+  "sourceRoot": "",
+  "sources": [
+    "index.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA,MAAA,EAAA,MAAA,EAAA;;EAAA,MAAA,GAAS,OAAA,CAAQ,UAAR;;EACT,MAAA,GAAS,OAAA,CAAQ,UAAR;;EACT,aAAA,GAAgB,OAAA,CAAQ,iBAAR,EAFhB;;;EAKA,OAAO,CAAC,EAAR,CAAW,mBAAX,EAAgC,QAAA,CAAC,GAAD,CAAA;WAC9B,MAAM,CAAC,GAAP,CAAW,MAAM,CAAC,iBAAlB,EAAqC,mBAArC,EAA0D,GAA1D;EAD8B,CAAhC,EALA;;;EAUA,MAAM,CAAC,GAAP,CAAA,CAAY,CAAC,IAAb,CAAkB,QAAA,CAAC,UAAD,CAAA,EAAA;;IAGhB,MAAM,CAAC,QAAP,GAAkB,UAAU,CAAC;IAC7B,aAAa,CAAC,MAAd,GAAuB,OAFzB;;IAME,aAAa,CAAC,SAAd,GAA0B,UAAU,CAAC;WACrC,aAAa,CAAC,IAAd,CAAmB,UAAU,CAAC,IAA9B;EATgB,CAAlB,CAUC,CAAC,IAVF,CAAA;AAVA",
+  "sourcesContent": [
+    "config = require './config'\nlogger = require './logger'\nsocketWrapper = require './socketWrapper'\n\n# catch errors\nprocess.on 'uncaughtException', (err) ->\n  logger.log(logger.logLevelEmergency, 'uncaughtException', err)\n\n\n# read config\nconfig.get().then((configJson) ->\n\n# logger\n  logger.logLevel = configJson.logLevel\n  socketWrapper.logger = logger\n\n\n  # connect to the socket-port and listen it\n  socketWrapper.secretKey = configJson.secretKey\n  socketWrapper.init(configJson.port)\n).done()\n"
+  ]
+}

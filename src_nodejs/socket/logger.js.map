@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "logger.js",
+  "sourceRoot": "",
+  "sources": [
+    "logger.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAY;EAAA;AAAA,MAAA;;EACZ,MAAM,CAAC,OAAP,GAAiB,IAAA,GAGf,CAAA;;IAAA,QAAA,EAAU,GAAV;;IAGA,aAAA,EAAe,GAHf;IAIA,YAAA,EAAc,GAJd;IAKA,cAAA,EAAgB,GALhB;IAMA,eAAA,EAAiB,GANjB;IAOA,aAAA,EAAe,GAPf;IAQA,gBAAA,EAAkB,GARlB;IASA,aAAA,EAAe,GATf;IAUA,iBAAA,EAAmB,GAVnB;IAYA,GAAA,EAAK,QAAA,CAAC,QAAD,CAAA;MACH,IAAG,IAAI,CAAC,QAAL,IAAkB,QAAA,IAAY,IAAI,CAAC,QAAtC;QACE,IAAG,QAAA,IAAY,IAAI,CAAC,eAApB;iBACE,OAAO,CAAC,KAAR,CAAc,IAAA,CAAA,CAAd,EAAsB,SAAtB,EADF;SAAA,MAAA;iBAGE,OAAO,CAAC,GAAR,CAAY,IAAA,CAAA,CAAZ,EAAoB,SAApB,EAHF;SADF;;IADG;EAZL;AAJU",
+  "sourcesContent": [
+    "# write logs\nmodule.exports = self =\n\n# minimal level for logging\n  logLevel: 250\n\n# @link https://github.com/Seldaek/monolog/blob/master/src/Monolog/Logger.php\n  logLevelDebug: 100\n  logLevelInfo: 200\n  logLevelNotice: 250\n  logLevelWarning: 300\n  logLevelError: 400\n  logLevelCritical: 500\n  logLevelAlert: 550\n  logLevelEmergency: 600\n\n  log: (logLevel) ->\n    if self.logLevel and logLevel >= self.logLevel\n      if logLevel >= self.logLevelWarning\n        console.error(Date(), arguments)\n      else\n        console.log(Date(), arguments)\n"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "hackerrank",
+  "description": "Some scripts for Hackerrank",
+  "version": "0.0.1",
+  "author": {
+    "name": "Boris Korobkov",
+    "email": "boris@korobkov.su"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha ./unit-test/*.js"
+  }
+}

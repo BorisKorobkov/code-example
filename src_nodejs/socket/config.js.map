@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "config.js",
+  "sourceRoot": "",
+  "sources": [
+    "config.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAa;EAAA;AAAA,MAAA,CAAA,EAAA,EAAA,EAAA;;EAEb,EAAA,GAAK,OAAA,CAAQ,IAAR;;EACL,CAAA,GAAI,OAAA,CAAQ,GAAR,EAHS;;EAKb,MAAM,CAAC,OAAP,GAAiB,IAAA,GAEf;IAAA,WAAA,EAAa,IAAb;IAEA,GAAA,EAAK,QAAA,CAAC,SAAD,CAAA;AACP,UAAA,cAAA,EAAA,QAAA;;MACI,IAAG,CAAI,IAAI,CAAC,WAAZ;QACE,cAAA,GAAoB,uBAAH,GAAyB,OAAO,CAAC,IAAI,CAAC,CAAD,CAArC,GAA8C;QAC/D,QAAA,GAAW,CAAC,CAAC,SAAF,CAAY,EAAE,CAAC,QAAf;QACX,IAAI,CAAC,WAAL,GAAmB,QAAA,CAAS,cAAT,CAAwB,CAAC,IAAzB,CAA8B,QAAA,CAAC,IAAD,CAAA;iBAC/C,IAAI,CAAC,KAAL,CAAW,IAAX;QAD+C,CAA9B,EAHrB;OADJ;;aAQI,IAAI,CAAC,WAAW,CAAC,IAAjB,CAAsB,QAAA,CAAC,IAAD,CAAA;QACpB,IAAG,SAAH;iBACE,IAAI,CAAC,SAAD,EADN;SAAA,MAAA;iBAGE,KAHF;;MADoB,CAAtB;IATG;EAFL;AAPW",
+  "sourcesContent": [
+    "# read config\n\nfs = require 'fs'\nQ = require 'q' # @link https://github.com/kriskowal/q/\n\nmodule.exports = self =\n\n  dataPromise: null # cache\n\n  get: (paramName) ->\n    # read a config-file if not in cache\n    if not self.dataPromise\n      configFileName = if process.argv[2]? then process.argv[2] else './config.json'\n      readFile = Q.denodeify(fs.readFile)\n      self.dataPromise = readFile(configFileName).then (data) ->\n        JSON.parse(data)\n\n    # get data from cache\n    self.dataPromise.then (data) ->\n      if paramName\n        data[paramName] # required property\n      else\n        data # all data\n"
+  ]
+}

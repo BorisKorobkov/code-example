@@ -1,0 +1,25 @@
+{
+  "name": "socket-server",
+  "version": "0.1.2",
+  "description": "Socket-server",
+  "author": {
+    "name": "Boris Korobkov",
+    "email": "boris@korobkov.su"
+  },
+  "dependencies": {
+    "https": "*",
+    "express": "*",
+    "socket.io": "*",
+    "q": "*",
+    "crypto": "*"
+  },
+  "scripts": {
+    "install:ubuntu": "apt-get install nodejs nodejs-legacy npm -y; ln -s /usr/bin/nodejs /usr/bin/node; npm -g install coffee-script -y",
+    "install:centos": "yum install nodejs npm tmux -y; npm -g install coffee-script -y",
+    "install:create_cert": "echo \\\"'Common Name (e.g. server FQDN or YOUR name)' - your domain name. Password - empty.\\\"; cd ssl && openssl req -x509 -nodes -days 10000 -newkey rsa:1024 -keyout cert.key -out cert.crt && cd ..",
+    "install": "npm install -y",
+    "run": "while true; do timeout 24h node index >> logs/`date \\\"+%Y.%m.%d\\\"`.log 2>> logs/`date \\\"+%Y.%m.%d\\\"`.err; done",
+    "test": "curl localhost:3000",
+    "stop": "killall node"
+  }
+}
