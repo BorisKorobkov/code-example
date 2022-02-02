@@ -1,0 +1,17 @@
+{
+  "name": "boriskorobkov/code-example",
+  "description": "Code example",
+  "version": "0.2.2",
+  "authors": [
+    {
+      "name": "Boris Korobkov",
+      "email": "boris@korobkov.su",
+      "role": "Developer"
+    }
+  ],
+  "scripts": {
+    "count_by_price_range": "php run.php count_by_price_range 12.00 145.80",
+    "count_by_vendor_id": "php run.php count_by_vendor_id 35",
+    "test": "chmod +x tests/run.sh; tests/run.sh"
+  }
+}

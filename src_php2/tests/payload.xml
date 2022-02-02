@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <offer>
+        <offerId>123</offerId>
+        <price>390.4</price>
+        <productTitle>Coffee machine</productTitle>
+        <vendorId>35</vendorId>
+    </offer>
+    <offer>
+        <offerId>124</offerId>
+        <price>15.5</price>
+        <productTitle>Napkins</productTitle>
+        <vendorId>35</vendorId>
+    </offer>
+    <offer>
+        <offerId>125</offerId>
+        <price>230.0</price>
+        <productTitle>Chair</productTitle>
+        <vendorId>84</vendorId>
+    </offer>
+</root>

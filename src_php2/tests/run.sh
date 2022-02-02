@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo -n "foo: "
+[ "$(php run.php)" == "Class is not specified" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php foo)" == "404. Not found" ] && echo -n "+" ||  echo -n "-"
+echo ""
+
+echo -n "count_by_vendor_id: "
+[ "$(php run.php count_by_vendor_id -1)" == "0" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_vendor_id 0)" == "0" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_vendor_id 42)" == "0" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_vendor_id 84)" == "1" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_vendor_id 35)" == "2" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_vendor_id)" == "vendorId is not specified" ] && echo -n "+" ||  echo -n "-"
+echo ""
+
+echo -n "count_by_price_range: "
+[ "$(php run.php count_by_price_range 12 13)" == "0" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_price_range 12 145)" == "1" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_price_range 12.00 145.80)" == "1" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_price_range 390 400)" == "1" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_price_range 391 400)" == "0" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_price_range 391)" == "priceFrom and priceTo are not specified" ] && echo -n "+" ||  echo -n "-"
+[ "$(php run.php count_by_price_range)" == "priceFrom and priceTo are not specified" ] && echo -n "+" ||  echo -n "-"
+echo ""
