@@ -1,0 +1,22 @@
+{
+  "name": "boriskorobkov/recipe-count",
+  "description": "Recipe count",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Boris Korobkov",
+      "email": "boriskorobkov@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "scripts": {
+    "docker:build": "docker build --tag boriskorobkov/recipe-count:dev -f docker/Dockerfile --target php-dev .",
+    "docker:run": "docker run --env-file template.env boriskorobkov/recipe-count:dev php src/index.php",
+    "docker:unit-tests": "docker run boriskorobkov/recipe-count:dev php tests/unit/index.php",
+    "docker:unit-tests-xdebug": "docker run -v $(pwd):/var/www -v $(pwd)/docker/php-xdebug.ini:/usr/local/etc/php/conf.d/php-xdebug.ini -e PHP_IDE_CONFIG=\"serverName=recipeCount\" --add-host=host.docker.internal:host-gateway boriskorobkov/recipe-count:dev /bin/sh -c 'XDEBUG_SESSION=1 php tests/unit/index.php'",
+    "docker:integration-tests": "cd tests/integration && ./test.sh && cd ../.."
+  },
+  "require": {
+    "ext-zlib": "*"
+  }
+}
