@@ -1,59 +1,38 @@
 # Code example
 
-## Prologue
+Here is some code to show my knowledge.
 
-When I was interviewed like a PHP backend developer, one of the tasks was:
+## PHP backend developer
 
-_Create a site from scratch in pure PHP without using third-party libraries (except CSS). 
-It should be a blog with ~~blackjack and hookers~~ tasks and (optional) comments._
+* [php/stat](php/stat) -
+  _Create a CLI app from scratch in pure PHP without using third-party libraries.
+  It should load a JSON-file, unzip it, parse it, calculate some counters, return the result of counters to stdout._
+  Time limit: 4 hours.
 
-I implemented all files in `src_php/` in 4 hours. And the examiner was looking at my screen all the time.
+* [php/mvc](php/mvc) -
+  _Create a site from scratch in pure PHP without using third-party libraries (except CSS).
+  It should be a blog with ~~blackjack and hookers~~ tasks and (optional) comments._
+  Time limit: 4 hours.
 
-The idea of MVC is based on Yii framework, but I created everything from scratch and didn't copy anything.
+## Node.js backend developer
 
-## Epilogue
+* [nodejs/hackerrank](nodejs/hackerrank) -
+  some solutions from [https://www.hackerrank.com/](https://www.hackerrank.com/)
 
-Later I added:
+* [nodejs/socket](nodejs/socket) -
+  websocket-server works like a daemon: always is running, listen a port, receive socket-requests, push data back to sockets.
 
-* `.github/` and `docker/` to show my knowledge as a DevOps.
-* `src_nodejs/` to show my knowledge as a Node.JS developer.
+## DevOps
 
-## Install
+* [.github](.github) -
+  some Github actions for CI/CD
 
-### With Docker
+* [php/stat/docker](php/stat/docker) -
+  Dockerfile for CLI PHP with xDebug. [See details](php/stat/readme.md)
 
-* Run `composer docker:build` to build a docker image.
-  * Also, you can run the corresponding command from `composer.json`.
-  * In Ubuntu use root-account or `sudo ...`.
-* Run `composer docker:up` to start docker containers.
-* Open <http://127.0.0.1:8080/> in a browser. 
-  Adminer is [http://127.0.0.1:8081/](http://localhost:8081/?server=db&username=boris&db=code_example) (password "korobkov").
-  If you prefer another ports - set them to ENV-variables `NGINX_PORT` and `ADMINER_PORT`.
-* Press `Ctrl + C` to stop docker containers.
-* Run `composer docker:rm` to drop docker containers and volumes.
-
-#### Docker with x-Debug and editing source code
-
-* See commands above, but run `composer docker:xdebug-up` instead of `composer docker:up`
-* Config your IDE. For example WebStorm or PhpStorm:
-  * File / Settings / PHP / Debug / Xdebug: "9000,9003", "Can accept external connections".
-    [See details](https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html#integrationWithProduct)
-  * "Start listening for PHP Debug Connection"
-  * Create and run a bookmark in your browser:
-    `javascript:(/** @version 0.5.2 */function() {document.cookie='XDEBUG_SESSION='+'PHPSTORM'+';path=/;';})()`
-* If you want to use `curl` or `Postman` - add a GET-param for xDebugging: <http://127.0.0.1:8080/?XDEBUG_SESSION_START=1>
-
-### Without Docker
-
-* Create a MySQL-user, a MySQL-DB, apply files `src_php/migration/*.sql`.
-* Create ENV-variables: `DB_DATABASE`, `DB_USER`, `DB_PASSWORD`.
-* Config your web-server (Nginx or Apache) and point it to `src_php/web`
-
-## How it looks
-
-![](screenshot_1.png)
-![](screenshot_2.png)
+* [php/mvc/docker](php/mvc/docker) -
+  Dockerfile for PHP-FPM with xDebug, Nginx, MySQL, Docker compose. [See details](php/mvc/readme.md)
 
 ## Author
 
-[Boris Korobkov](mailto:boris@korobkov.su)
+[Boris Korobkov](mailto:boriskorobkov@gmail.com)
