@@ -52,7 +52,7 @@ services:
   # PHP
   php:
     container_name: php
-    image: boriskorobkov/code-example:latest
+    image: boriskorobkov/code-example-mvc:latest
     environment:
       DB_HOST: db
       DB_DATABASE: ${DB_DATABASE}
