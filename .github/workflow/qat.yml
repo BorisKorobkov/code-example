@@ -10,7 +10,7 @@ jobs:
   build-qat:
     uses: boriskorobkov/code-example/.github/workflows/_build.yml@master
     with:
-      APP_PATH: src_php/
+      APP_PATH: php/mvc/
       DOCKERHUB_REPO: boriskorobkov/code-example
     secrets:
       DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
