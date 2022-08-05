@@ -9,7 +9,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway # Magic for xDebug in Ubuntu. It's not necessary for Mac or Windows
     volumes:
-      - ../src_php/:/var/www/ # PHP src
+      - ../:/var/www/ # PHP src
       - ./php-xdebug.ini:/usr/local/etc/php/conf.d/php-xdebug.ini # xDebug
 
   adminer:

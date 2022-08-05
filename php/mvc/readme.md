@@ -37,9 +37,9 @@ Later I added `docker/` to show my knowledge as a DevOps.
 
 ### Without Docker
 
-* Create a MySQL-user, a MySQL-DB, apply files `src_php/migration/*.sql`.
+* Create a MySQL-user, a MySQL-DB, apply files `migration/*.sql`.
 * Create ENV-variables: `DB_DATABASE`, `DB_USER`, `DB_PASSWORD`.
-* Config your web-server (Nginx or Apache) and point it to `src_php/web`
+* Config your web-server (Nginx or Apache) and point it to `web`
 
 ## How it looks
 

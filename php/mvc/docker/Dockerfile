@@ -49,4 +49,4 @@ RUN apk add $PHPIZE_DEPS \
 FROM php AS code-example
 
 # PHP src
-COPY --chown=www-data:www-data src_php/ /var/www/
+COPY --chown=www-data:www-data ./ /var/www/
