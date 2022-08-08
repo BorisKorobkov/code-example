@@ -1,0 +1,71 @@
+version: "3.7"
+
+networks:
+  intranet:
+    attachable: true
+  web:
+    external: true
+
+# Volumes are stored in /var/lib/docker/volumes/
+volumes:
+  mysql:
+
+services:
+  ###################
+  # Nginx
+  ###################
+  nginx:
+    image: nginx:latest  # https://hub.docker.com/_/nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../src/:/var/www/
+    networks:
+      - intranet
+      - web
+    depends_on:
+      - php
+
+  ###################
+  # PHP
+  ###################
+  php:
+    image: boriskorobkov/report-ui:dev # ./php/Dockerfile
+    environment:
+      DB_HOST: db
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      YII_DEBUG: ${YII_DEBUG:-0}
+      YII_ENV: ${YII_ENV:-prod}
+    networks:
+      - intranet
+    depends_on:
+      - db
+
+  ###################
+  # DB
+  ###################
+  db:
+    image: mariadb:latest # https://hub.docker.com/_/mariadb
+    volumes:
+      - mysql:/var/lib/mysql
+      - ./db/migrations:/docker-entrypoint-initdb.d # migrations
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci --default-storage-engine=InnoDB
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    networks:
+      - intranet
+
+  ###################
+  # Adminer
+  ###################
+  adminer:
+    image: adminer # https://hub.docker.com/_/adminer
+    environment:
+      - ADMINER_DEFAULT_SERVER=db
+    networks:
+      - intranet
+      - web
