@@ -3,7 +3,7 @@
 When I was interviewed like a PHP backend developer, one of the tasks was:
 
 _Create a site from scratch in pure PHP without using third-party libraries (except CSS). 
-It should be a blog with ~~blackjack and hookers~~ tasks and (optional) comments._
+It should be a blog with tasks and (optional) comments._
 
 I implemented all files in 4 hours. The idea of MVC is based on Yii framework, but I created everything from scratch and didn't copy anything.
 

@@ -1,0 +1,36 @@
+version: "3.7"
+# For Traefik. https://traefik.io/
+
+x-labels:
+  - &traefik-network traefik.docker.network=web
+  - &traefik-disable traefik.enable=false
+  - &traefik-enable traefik.enable=true
+
+services:
+  nginx:
+    labels:
+      - traefik.http.routers.${PROJECT}.rule=Host("${PROJECT}.${DOMAIN}")
+      - traefik.http.routers.${PROJECT}.entrypoints=websecure
+      - traefik.http.routers.${PROJECT}.tls=true
+      - traefik.http.routers.${PROJECT}.tls.certresolver=${CERTRESOLVER:-}
+#      - traefik.http.services.${PROJECT}.loadbalancer.server.port=80
+      - *traefik-network
+      - *traefik-enable
+
+  php:
+    labels:
+      - *traefik-disable
+
+  db:
+    labels:
+      - *traefik-disable
+
+  adminer:
+    labels:
+      - traefik.http.routers.adminer-${PROJECT}.rule=Host("adminer.${PROJECT}.${DOMAIN}")
+      - traefik.http.routers.adminer-${PROJECT}.entrypoints=websecure
+      - traefik.http.routers.adminer-${PROJECT}.tls=true
+      - traefik.http.routers.adminer-${PROJECT}.tls.certresolver=${CERTRESOLVER:-}
+#      - traefik.http.services.adminer-${PROJECT}.loadbalancer.server.port=80
+      - *traefik-network
+      - *traefik-enable

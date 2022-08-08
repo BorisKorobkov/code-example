@@ -1,0 +1,28 @@
+version: '3.7'
+# For Docker swarm. https://docs.docker.com/engine/swarm/
+
+x-deploy: &deploy
+  deploy:
+    mode: replicated
+    replicas: 1
+    restart_policy:
+      max_attempts: 3
+      condition: any
+      delay: 60s
+    update_config:
+      parallelism: 1
+      delay: 10s
+      order: start-first
+
+services:
+  nginx:
+    <<: *deploy
+
+  php:
+    <<: *deploy
+
+  db:
+    <<: *deploy
+
+  adminer:
+    <<: *deploy
