@@ -19,7 +19,7 @@ If you want to demonize, then add ` -d`
 If you have Docker Swarm, then add ` -f docker/docker-compose.swarm.yml`
 
 * Report UI: [https://report.korobkov.su/](https://report.korobkov.su/). You can set different domain in [docker/docker-compose.env](docker/docker-compose.env)
-* Adminer: [https://adminer.report.korobkov.su/](https://adminer.report.korobkov.su/?server=db&username=boris&db=report), password `korobkov`
+* Adminer: [https://adminer-report.korobkov.su/](https://adminer-report.korobkov.su/?server=db&username=boris&db=report), password `korobkov`
 
 #### Local with exposed ports
 
