@@ -30,6 +30,8 @@ services:
   ###################
   php:
     image: boriskorobkov/report-ui:dev # ./php/Dockerfile
+    volumes:
+      - ../src:/var/www/ # to share PHP static files with Nginx
     environment:
       DB_HOST: db
       DB_DATABASE: ${DB_DATABASE}
