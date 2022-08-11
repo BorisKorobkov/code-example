@@ -2,6 +2,27 @@
 
 Here is some code to show my knowledge.
 
+## Software engineer
+
+* [system_design](system_design) - system design
+
+## DevOps
+
+* [.github](.github) -
+  some Github actions for CI/CD
+
+* [php/reportCli/docker](php/reportCli/docker) -
+  Dockerfile for CLI MySQL. [See details](php/reportCli/readme.md)
+
+* [php/reportUi/docker](php/reportUi/docker) -
+  Docker for PHP-FPM with xDebug, Nginx, MySQL, Docker compose. [See details](php/reportUi/readme.md)
+
+* [php/stat/docker](php/stat/docker) -
+  Dockerfile for CLI PHP with xDebug. [See details](php/stat/readme.md)
+
+* [php/mvc/docker](php/mvc/docker) -
+  Docker for PHP-FPM with xDebug, Nginx, MySQL, Docker compose. [See details](php/mvc/readme.md)
+
 ## PHP backend developer
 
 * [php/stat](php/stat) -
@@ -27,23 +48,6 @@ Here is some code to show my knowledge.
 
 * [nodejs/socket](nodejs/socket) -
   websocket-server works like a daemon: always is running, listen a port, receive socket-requests, push data back to sockets.
-
-## DevOps
-
-* [.github](.github) -
-  some Github actions for CI/CD
-
-* [php/reportCli/docker](php/reportCli/docker) -
-  Dockerfile for CLI MySQL. [See details](php/reportCli/readme.md)
-
-* [php/reportUi/docker](php/reportUi/docker) -
-  Docker for PHP-FPM with xDebug, Nginx, MySQL, Docker compose. [See details](php/reportUi/readme.md)
-
-* [php/stat/docker](php/stat/docker) -
-  Dockerfile for CLI PHP with xDebug. [See details](php/stat/readme.md)
-
-* [php/mvc/docker](php/mvc/docker) -
-  Docker for PHP-FPM with xDebug, Nginx, MySQL, Docker compose. [See details](php/mvc/readme.md)
 
 ## Author
 
