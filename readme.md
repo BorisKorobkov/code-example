@@ -17,15 +17,15 @@ Here is some code to show my knowledge.
 * [php/reportUi/docker](php/reportUi/docker) -
   Docker for PHP-FPM with xDebug, Nginx, MySQL, Docker compose. [See details](php/reportUi/readme.md)
 
-* [php/stat/docker](php/stat/docker) -
-  Dockerfile for CLI PHP with xDebug. [See details](php/stat/readme.md)
+* [php/stat/docker](php/recipe-count/docker) -
+  Dockerfile for CLI PHP with xDebug. [See details](php/recipe-count/readme.md)
 
 * [php/mvc/docker](php/mvc/docker) -
   Docker for PHP-FPM with xDebug, Nginx, MySQL, Docker compose. [See details](php/mvc/readme.md)
 
 ## PHP backend developer
 
-* [php/stat](php/stat) -
+* [php/recipe-count](php/recipe-count) -
   _Create a CLI app from scratch in pure PHP without using third-party libraries.
   It should load a JSON-file, unzip it, parse it, calculate some counters, return the result of counters to stdout._
   Time limit: 4 hours.
