@@ -28,7 +28,7 @@
  *  2. INTEGER d
  */
 function rotLeft(array, n) {
-    for(let i=0; i<n; i++) {
+    for (let i = 0; i < n; i++) {
         array.push(array.shift()); // move from left to right
     }
 

@@ -52,7 +52,7 @@
 function hourglassSum(arr) {
     let maxSum = null;
 
-    // @todo this is brutforce
+    // @todo this is bruteforce
     for (let x = 0; x <= 3; x++) {
         for (let y = 0; y <= 3; y++) {
             let sum = arr[y][x] + arr[y][x + 1] + arr[y][x + 2] +

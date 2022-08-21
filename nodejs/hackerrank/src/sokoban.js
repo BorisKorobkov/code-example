@@ -23,12 +23,14 @@ class Sokoban {
         this.#maxY = y;
 
         // create an empty 2D array
+        let line = [];
+        for (let j = 0; j < x; j++) {
+            line[j] = VALUE_EMPTY;
+        }
+
         this.#map = [];
         for (let i = 0; i < y; i++) {
-            this.#map[i] = [];
-            for (let j = 0; j < x; j++) {
-                this.#map[i][j] = VALUE_EMPTY;
-            }
+            this.#map[i] = [...line]; // "this.#map[i] = line;" is wrong! Because it doesn't copy, it creates a link (pointer)
         }
     }
 

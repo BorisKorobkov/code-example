@@ -32,7 +32,7 @@ function repeatedString(s, n) {
         nA += nAInString * numberOfStringRepetitions;
     }
 
-   if (numberOfStringParts > 0) {
+    if (numberOfStringParts > 0) {
         let nAInString = s.slice(0, numberOfStringParts).split('a').length - 1;
         nA += nAInString;
     }

@@ -23,9 +23,8 @@ function compositeWords(words) {
             return isCompositeWordCache.get(word);
         }
 
-        // "level > 0" means "don't compare with itself"
+        // "level === 0" means "don't compare with itself"
         if (level > 0 && wordsSet.has(word)) {
-            isCompositeWordCache.set(word, true);
             return true;
         }
 
@@ -38,7 +37,6 @@ function compositeWords(words) {
                 // recursion
                 let isFound = isCompositeWord(postfix, level + 1);
                 if (isFound) {
-                    isCompositeWordCache.set(word, true);
                     return true;
                 }
             }
