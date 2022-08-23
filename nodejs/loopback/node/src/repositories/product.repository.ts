@@ -30,4 +30,9 @@ export class ProductRepository extends DefaultCrudRepository<
     return modelClass;
   }
 
+  // set "is_deleted=true" instead of deleting
+  async deleteById(id: any, options: any) {
+    this.updateById(id, {is_deleted: true});
+  }
+
 }
