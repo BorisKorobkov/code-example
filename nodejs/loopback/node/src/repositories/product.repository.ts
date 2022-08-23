@@ -13,4 +13,21 @@ export class ProductRepository extends DefaultCrudRepository<
   ) {
     super(Product, dataSource);
   }
+
+  /**
+   * @link https://loopback.io/doc/en/lb4/migration-models-operation-hooks.html
+   */
+  definePersistedModel(entityClass: typeof Product) {
+    const modelClass = super.definePersistedModel(entityClass);
+
+    // webhook for setting "last_edited_on"
+    // ../../node_modules/loopback-datasource-juggler/lib/dao.js
+    modelClass.observe('persist', async ctx => {
+      ctx.data.last_edited_on = new Date();
+      // ctx.data.last_edited_by = ; // @todo set the current user
+    });
+
+    return modelClass;
+  }
+
 }
