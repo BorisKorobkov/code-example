@@ -1,10 +1,11 @@
 import {model, property} from '@loopback/repository';
 import {BaseEntity} from './base-entity';
+import {CreatedMixin} from "../mixins/created.mixin";
 import {LastEditedMixin} from "../mixins/last-edited.mixin";
 import {IsDeletedMixin} from "../mixins/is_deleted.mixin";
 
 @model()
-export class Product extends LastEditedMixin(IsDeletedMixin(BaseEntity)) {
+export class Product extends CreatedMixin(LastEditedMixin(IsDeletedMixin(BaseEntity))) {
   @property({
     type: 'number',
     id: true,
@@ -36,16 +37,6 @@ export class Product extends LastEditedMixin(IsDeletedMixin(BaseEntity)) {
     type: 'string',
   })
   raw_materials?: string;
-
-  @property({
-    type: 'date',
-  })
-  created_on?: string;
-
-  @property({
-    type: 'number',
-  })
-  created_by?: number;
 
   constructor(data?: Partial<Product>) {
     super(data);
