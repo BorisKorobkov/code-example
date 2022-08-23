@@ -14,11 +14,13 @@ export function CreatedMixin<T extends MixinTarget<Model>>(
   class MixedModel extends superClass {
     @property({
       type: 'date',
+      default: () => new Date(),
     })
     created_on?: string;
 
     @property({
       type: 'number',
+      // default: () => , // @todo set the current user
     })
     created_by?: number;
   }

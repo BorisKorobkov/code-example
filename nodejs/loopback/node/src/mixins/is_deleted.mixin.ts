@@ -14,6 +14,7 @@ export function IsDeletedMixin<T extends MixinTarget<Model>>(
   class MixedModel extends superClass {
     @property({
       type: 'boolean',
+      default: false,
     })
     is_deleted?: boolean;
   }

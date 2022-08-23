@@ -14,11 +14,13 @@ export function LastEditedMixin<T extends MixinTarget<Model>>(
   class MixedModel extends superClass {
     @property({
       type: 'date',
+      default: () => new Date(),
     })
     last_edited_on?: string;
 
     @property({
       type: 'number',
+      // default: () => , // @todo set the current user
     })
     last_edited_by?: number;
   }
