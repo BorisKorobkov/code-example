@@ -145,3 +145,7 @@ Run | Edit Configurations | + | Node.js
 
 See details on https://www.jetbrains.com/help/phpstorm/node-with-docker.html 
 and https://www.jetbrains.com/help/phpstorm/installing-and-removing-external-software-using-node-package-manager.html
+
+methods: nodejs/loopback/node/node_modules/@loopback/repository/dist/connectors/crud.connector.d.ts deleteAll
+webhooks: nodejs/loopback/node/node_modules/loopback-datasource-juggler/lib/dao.js deleteAll
+observer: nodejs/loopback/node/node_modules/loopback-datasource-juggler/lib/observer.js notifyObserversOf

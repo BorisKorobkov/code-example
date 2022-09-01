@@ -32,7 +32,7 @@ export class ProductRepository extends DefaultCrudRepository<
 
   // set "is_deleted=true" instead of deleting
   async deleteById(id: any, options: any) {
-    this.updateById(id, {is_deleted: true});
+    await this.updateById(id, {is_deleted: true});
   }
 
 }
