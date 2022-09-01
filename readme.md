@@ -20,6 +20,9 @@ Here is some code to show my knowledge.
 * [php/stat/docker](php/recipe-count/docker) -
   Dockerfile for CLI PHP with xDebug. [See details](php/recipe-count/readme.md)
 
+* [nodejs/loopback/docker](nodejs/loopback/docker) -
+  Docker for Node.JS, PostgreSQL, Docker compose. [See details](nodejs/loopback/readme.md)
+
 * [php/mvc/docker](php/mvc/docker) -
   Docker for PHP-FPM with xDebug, Nginx, MySQL, Docker compose. [See details](php/mvc/readme.md)
 
@@ -44,10 +47,16 @@ Here is some code to show my knowledge.
 ## Node.js backend developer
 
 * [nodejs/hackerrank](nodejs/hackerrank) -
-  some solutions from [https://www.hackerrank.com/](https://www.hackerrank.com/)
+  my solutions from [https://www.hackerrank.com/](https://www.hackerrank.com/).
+  Node.js
+
+* [nodejs/loopback](nodejs/loopback) -
+  my first steps with Loopback framework.
+  Typescript
 
 * [nodejs/socket](nodejs/socket) -
   websocket-server works like a daemon: always is running, listen a port, receive socket-requests, push data back to sockets.
+  Coffescript
 
 ## Author
 
