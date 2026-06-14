@@ -1,0 +1,8 @@
+type: trigger
+name: user/black-bot
+description: "Ban black bots"
+filter: evt.Meta.location == 'trap'
+blackhole: 4h
+groupby: "evt.Meta.source_ip"
+labels:
+  remediation: true

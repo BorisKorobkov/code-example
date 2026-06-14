@@ -1,0 +1,30 @@
+# Read Nginx logs in JSON format
+filebeat.inputs:
+- type: filestream
+  enabled: true
+  paths:
+    - /var/log/nginx/grafana_access.log
+  json:
+    keys_under_root: true
+    overwrite_keys: true
+
+processors:
+  - decode_json_fields:
+      fields: ["message"]
+      target: ""
+      overwrite_keys: true
+  - convert:
+      fields:
+        - {from: "responsetime", to: "responsetime", type: "float", ignore_missing: true, fail_on_error: false}
+        - {from: "size", to: "size", type: "long", ignore_missing: true, fail_on_error: false}
+        - {from: "status", to: "status", type: "long", ignore_missing: true, fail_on_error: false}
+
+# Write data to Logstash
+output.logstash:
+  hosts: ["logstash:5044"]
+  ssl.enabled: false
+
+# Logging
+logging:
+  level: info # info, debug, error
+  json: true

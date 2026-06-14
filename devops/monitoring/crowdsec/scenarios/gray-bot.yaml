@@ -1,0 +1,15 @@
+type: leaky
+name: user/gray-bot
+description: "Ban gray bots"
+filter: |
+  evt.Meta.location == 'backend' &&
+  (
+    evt.Meta.http_user_agent matches "(?i)curl" ||
+    evt.Meta.http_user_agent matches "(?i)wget"
+  )
+capacity: 10
+leakspeed: "6s"
+blackhole: 4h
+groupby: "evt.Meta.source_ip"
+labels:
+  remediation: true

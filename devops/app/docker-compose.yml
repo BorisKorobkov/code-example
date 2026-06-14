@@ -1,0 +1,73 @@
+networks:
+  app:
+    attachable: true
+  web:
+    external: true
+
+x-labels:
+  - &traefik-network "traefik.docker.network=web"
+  - &traefik-disable "traefik.enable=false"
+  - &traefik-enable "traefik.enable=true"
+
+services:
+
+  # Nginx + Frontend
+  nginx:
+    image: openresty/openresty:1.31.1.1-alpine-apk
+    restart: always
+    healthcheck:
+      test: ["CMD", "sh", "-c", "netstat -tuln | grep -q '0.0.0.0:80'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ../../volumes/nginx/logs:/var/log/nginx:rw
+      - ../../volumes/frontend:/var/www/frontend:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - app
+      - web
+    labels:
+      - "traefik.http.routers.nginx.rule=Host(`korobkov.su`)"
+      - "traefik.http.routers.nginx.entrypoints=websecure"
+      - "traefik.http.routers.nginx.tls=true"
+      - "traefik.http.routers.nginx.tls.certresolver=${CERTRESOLVER:-}"
+      - "traefik.http.services.nginx.loadbalancer.server.port=80"
+      - *traefik-network
+      - *traefik-enable
+
+  # Backend
+  backend:
+    # skipped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app
+    labels:
+      - *traefik-disable
+
+  # DB
+  postgres:
+    image: postgres:18.4-alpine
+    restart: always
+    volumes:
+      - ../../volumes/db/:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - app
+    healthcheck:
+      test: ["CMD", "sh", "-c", "netstat -tuln | grep -q ':::5432'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    labels:
+      - *traefik-disable

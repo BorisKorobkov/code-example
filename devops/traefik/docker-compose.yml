@@ -1,0 +1,47 @@
+networks:
+  web:
+    external: true
+
+x-labels:
+  - &traefik-network "traefik.docker.network=web"
+  - &traefik-enable "traefik.enable=true"
+
+services:
+
+  traefik:
+    image: traefik:v3.7.4
+    restart: always
+    command:
+      - "--configFile=/etc/traefik/traefik-static.yml"
+    environment:
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN:-}
+      - CF_ZONE_API_TOKEN=${CF_ZONE_API_TOKEN:-}
+      - CERTRESOLVER=${CERTRESOLVER:-}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-}
+      - BASICAUTH=${BASICAUTH:-}
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - web
+    healthcheck:
+      test: ["CMD", "sh", "-c", "netstat -tuln | grep -q ':::443'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ../../volumes/letsencrypt:/letsencrypt
+      - ./traefik/traefik-static.yml:/etc/traefik/traefik-static.yml
+      - ./traefik/traefik-dynamic.yml:/etc/traefik/traefik-dynamic.yml
+    labels:
+      - "traefik.http.routers.traefik.rule=Host(`traefik.korobkov.su`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.tls.certresolver=${CERTRESOLVER:-}"
+      - "traefik.http.routers.traefik.middlewares=traefik-compress,auth"
+      - "traefik.http.middlewares.traefik-compress.compress=true"
+      - "traefik.http.middlewares.auth.basicauth.users=${BASICAUTH}"
+      - *traefik-network
+      - *traefik-enable

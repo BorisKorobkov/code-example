@@ -1,0 +1,129 @@
+networks:
+  ai:
+    attachable: true
+  monitoring:
+    external: true
+  web:
+    external: true
+
+x-labels:
+  - &traefik-network traefik.docker.network=web
+  - &traefik-disable traefik.enable=false
+  - &traefik-enable traefik.enable=true
+
+services:
+
+  # Ollama
+  ollama:
+    image: ollama/ollama:0.30.6
+    restart: unless-stopped
+    volumes:
+      - ../../volumes/ollama:/root/.ollama
+    networks:
+      - ai
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    labels:
+      - *traefik-disable
+
+  # Open WebUI. UI for Ollama
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    restart: unless-stopped
+    networks:
+      - ai
+      - web
+    environment:
+      - 'OLLAMA_BASE_URL=http://ollama:11434'
+    volumes:
+      - ../../volumes/open-webui:/app/backend/data
+    depends_on:
+      ollama:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    labels:
+      - "traefik.http.routers.open-webui.rule=Host(`open-webui.korobkov.su`)"
+      - "traefik.http.routers.open-webui.entrypoints=websecure"
+      - "traefik.http.routers.open-webui.tls=true"
+      - "traefik.http.routers.open-webui.tls.certresolver=${CERTRESOLVER:-}"
+      - "traefik.http.routers.open-webui.middlewares=traefik-compress,auth"
+      - "traefik.http.services.open-webui.loadbalancer.server.port=8080"
+      - *traefik-network
+      - *traefik-enable
+
+  # MLflow
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v3.13.0
+    restart: unless-stopped
+    environment:
+      - MLFLOW_TRACKING_URI=sqlite:///mlflow/mlflow.db
+    volumes:
+      - ../../volumes/mlflow:/mlflow
+    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///mlflow/mlflow.db --default-artifact-root /mlflow/artifacts
+    networks:
+      - web
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "5000"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    labels:
+      - "traefik.http.routers.mlflow.rule=Host(`mlflow.korobkov.su`)"
+      - "traefik.http.routers.mlflow.entrypoints=websecure"
+      - "traefik.http.routers.mlflow.tls=true"
+      - "traefik.http.routers.mlflow.tls.certresolver=${CERTRESOLVER:-}"
+      - "traefik.http.routers.mlflow.middlewares=traefik-compress,auth"
+      - "traefik.http.services.mlflow.loadbalancer.server.port=5000"
+      - *traefik-network
+      - *traefik-enable
+
+  # N8n
+  n8n:
+    image: n8nio/n8n:2.26.8
+    environment:
+      - N8N_HOST=n8n.korobkov.su
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://n8n.korobkov.su/
+    volumes:
+      - ../../volumes/n8n:/home/node/.n8n/config
+      - ./n8n/wait-for.sh:/usr/local/bin/wait-for.sh:ro
+    networks:
+      - ai
+      - monitoring
+      - web
+    depends_on:
+      mlflow:
+        condition: service_healthy
+# elasticsearch is started from other yml. So we use "wait-for.sh" instead of "depends_on elasticsearch"
+#      elasticsearch:
+#        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    entrypoint: ["wait-for.sh", "elasticsearch:9200", "-t 90", "--", "/docker-entrypoint.sh"]
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "5678"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    labels:
+      - "traefik.http.routers.n8n.rule=Host(`n8n.korobkov.su`)"
+      - "traefik.http.routers.n8n.entrypoints=websecure"
+      - "traefik.http.routers.n8n.tls=true"
+      - "traefik.http.routers.n8n.tls.certresolver=${CERTRESOLVER:-}"
+      - "traefik.http.routers.n8n.middlewares=traefik-compress,auth"
+      - "traefik.http.services.n8n.loadbalancer.server.port=5678"
+      - *traefik-network
+      - *traefik-enable

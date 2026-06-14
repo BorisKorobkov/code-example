@@ -1,0 +1,35 @@
+entryPoints:
+
+  web:
+    # HTTP -> HTTPS
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: "websecure"
+          scheme: "https"
+          priority: 1
+
+  websecure:
+    # HTTPS
+    address: ":443"
+    forwardedHeaders:
+      trustedIPs: *trustedIps
+    http3:
+      advertisedPort: "443"
+    http:
+      tls:
+        certResolver: "${CERTRESOLVER:-}"
+      middlewares:
+        - "crowdsec@file"
+
+providers:
+  file:
+    filename: /etc/traefik/traefik-dynamic.yml
+
+# crowdsec bouncer
+experimental:
+  plugins:
+    bouncer:
+      moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
+      version: v1.6.0 # https://github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin/releases

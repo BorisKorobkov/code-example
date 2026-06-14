@@ -1,0 +1,24 @@
+name: user/nginx-json
+description: "Nginx JSON-log parcer"
+filter: "evt.Line.Labels.type == 'nginx-json'"
+onsuccess: next_stage
+statics:
+  - parsed: "json_parsed"
+    expression: UnmarshalJSON(evt.Line.Raw, evt.Unmarshaled, "log")
+  
+  - target: evt.StrTime
+    expression: "evt.Unmarshaled.log != nil ? evt.Unmarshaled.log['@timestamp'] : ''"
+  - target: evt.Meta.source_ip
+    expression: "evt.Unmarshaled.log != nil ? evt.Unmarshaled.log.client_ip : ''"
+  - target: evt.Meta.http_user_agent
+    expression: "evt.Unmarshaled.log != nil ? evt.Unmarshaled.log.http_user_agent : ''"
+  - target: evt.Meta.http_status
+    expression: "evt.Unmarshaled.log != nil ? evt.Unmarshaled.log.status : ''"
+  - target: evt.Meta.http_verb
+    expression: "evt.Unmarshaled.log != nil ? evt.Unmarshaled.log.request_method : ''"
+  - target: evt.Meta.http_path
+    expression: "evt.Unmarshaled.log != nil ? evt.Unmarshaled.log.uri : ''"
+  - target: evt.Meta.http_referer
+    expression: "evt.Unmarshaled.log != nil ? evt.Unmarshaled.log.referer : ''"
+  - target: evt.Meta.location
+    expression: "evt.Unmarshaled.log != nil ? evt.Unmarshaled.log.location : ''"

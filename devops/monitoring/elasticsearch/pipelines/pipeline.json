@@ -1,0 +1,43 @@
+{
+  "description": "Parse IP to GeoIP, User Agent",
+  "processors": [
+    {
+      "geoip": {
+        "field": "client_ip",
+        "target_field": "geoip",
+        "properties": ["continent_name", "country_name", "region_name", "city_name", "location"],
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "user_agent": {
+        "field": "http_user_agent",
+        "target_field": "user_agent",
+        "properties": ["os", "name", "device"],
+        "ignore_missing": true,
+        "ignore_failure": true
+      }
+    },
+    {
+      "set": {
+        "field": "user_agent.is_bot",
+        "value": "user"
+      }
+    },
+    {
+      "set": {
+        "field": "user_agent.is_bot",
+        "value": "gray",
+        "if": "ctx.location == 'backend' || ['curl', 'wget'].stream().anyMatch(bot -> ctx.http_user_agent.toLowerCase().contains(bot))"
+      }
+    },
+    {
+      "set": {
+        "field": "user_agent.is_bot",
+        "value": "black",
+        "if": "ctx.location == 'trap'"
+      }
+    }
+  ]
+}

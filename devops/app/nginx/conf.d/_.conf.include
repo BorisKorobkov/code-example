@@ -1,0 +1,53 @@
+listen 80;
+error_log /var/log/nginx/error.log;
+access_log off;
+charset utf-8;
+gzip on;
+gzip_min_length 1024;
+gzip_types text/plain text/css text/javascript application/x-javascript;
+
+# Quick ban
+access_by_lua_block {
+	local bans = ngx.shared.black_bot_ips
+	local client_ip = ngx.var.remote_addr
+	if bans:get(client_ip) then
+		return ngx.exit(403)
+	end
+}
+
+# Frontend
+location ^~ /frontend/ {
+	root /var/www/frontend;
+	open_file_cache max=1000 inactive=1h;
+	expires 1h;
+	set $location_type "frontend";
+	access_log /var/log/nginx/grafana_access.log grafana_access_log;
+}
+
+# Backend
+location = /index.php {
+	fastcgi_pass php:9000;
+	fastcgi_index index.php;
+	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	include fastcgi_params;
+	set $location_type "backend";
+	access_log /var/log/nginx/grafana_access.log grafana_access_log;
+}
+
+# Trap for black bots
+location ^~ /. {
+	set $location_type "trap";
+	access_log /var/log/nginx/grafana_access.log grafana_access_log;
+    
+	access_by_lua_block {
+        local bans = ngx.shared.black_bot_ips
+        local client_ip = ngx.var.remote_addr
+        bans:set(client_ip, true, 86400)
+        return ngx.exit(403)
+    }
+}
+
+# Default
+location / {
+	try_files $uri /index.php$is_args$query_string;
+}

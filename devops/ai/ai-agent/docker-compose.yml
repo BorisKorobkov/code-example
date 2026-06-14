@@ -1,0 +1,46 @@
+networks:
+  ai:
+    attachable: true
+  monitoring:
+    external: true
+  web:
+    external: true
+
+x-labels:
+  - &traefik-network traefik.docker.network=web
+  - &traefik-disable traefik.enable=false
+  - &traefik-enable traefik.enable=true
+
+services:
+
+  # AI agent
+  ai-agent:
+    build:
+      context: ./ai-agent
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      mlflow:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - MLFLOW_TRACKING_URL=http://mlflow:5000
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    volumes:
+      - ./ai-agent:/app
+      - /app/node_modules
+    networks:
+      - ai
+      - monitoring
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "8000"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    labels:
+      - *traefik-disable

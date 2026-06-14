@@ -1,30 +1,35 @@
-# Code example
+# Portfolio code showcase
 
-Here is some code to show my knowledge.
+This repo contains automated infrastructure deployments and application code curated to demonstrate my technical skills.
+
+## DevOps, DevSecOps, MLOps, LLMOps, Platform Engineer, Site Reliability Engineer
+
+* **[Production-ready DevOps blueprint](./devops)**: A comprehensive demonstration repository provisioning an enterprise-grade infrastructure stack. This deployment features fully configured production-grade modular components, including ingress controllers, multi-stage reverse proxies,  load balancing, proactive threat mitigation firewalls, a high-availability application layer (Frontend, Backend, Database), a unified monitoring and observability pipeline, an autonomous AI-driven orchestration layer.
+
+* [.github](.github/workflow) - some Github actions for CI/CD
 
 ## Software engineer
 
 * [system_design](system_design) - system design
 
-## DevOps
+## Node.js / Typescript backend developer
 
-* [.github](.github) -
-  some Github actions for CI/CD
+* [devops/ai/ai-agent/src](devops/ai/ai-agent/src) -
+  The autonomous AI orchestration engine. It ingests runtime incident failures from `Elasticsearch`, executes a deterministic multi-stage LangGraph workflow, drives local LLM inference via `Ollama` to generate context-aware root-cause analyses (RCA) and explicit remediation commands.
+  Typescript
 
-* [php/reportCli/docker](php/reportCli/docker) -
-  Dockerfile for CLI MySQL. [See details](php/reportCli/readme.md)
+* [nodejs/hackerrank](nodejs/hackerrank) -
+  my solutions from [https://www.hackerrank.com/](https://www.hackerrank.com/).
+  Node.js
 
-* [php/reportUi/docker](php/reportUi/docker) -
-  Docker for PHP-FPM with xDebug, Nginx, MySQL, Docker compose. [See details](php/reportUi/readme.md)
+* [nodejs/loopback](nodejs/loopback) -
+  my first steps with Loopback framework.
+  Typescript
 
-* [php/stat/docker](php/recipe-count/docker) -
-  Dockerfile for CLI PHP with xDebug. [See details](php/recipe-count/readme.md)
+* [nodejs/socket](nodejs/socket) -
+  websocket-server works like a daemon: always is running, listen a port, receive socket-requests, push data back to sockets.
+  Coffescript
 
-* [nodejs/loopback/docker](nodejs/loopback/docker) -
-  Docker for Node.JS, PostgreSQL, Docker compose. [See details](nodejs/loopback/readme.md)
-
-* [php/mvc/docker](php/mvc/docker) -
-  Docker for PHP-FPM with xDebug, Nginx, MySQL, Docker compose. [See details](php/mvc/readme.md)
 
 ## PHP backend developer
 
@@ -38,25 +43,14 @@ Here is some code to show my knowledge.
   It should be a blog with tasks and (optional) comments._
   Time limit: 4 hours.
 
-* [php/reportCli](php/reportCli) -
-  Hardcore mode for geeks. Clean code, nothing more (even without PHP). Patterns: YAGNI, KISS.
-
 * [php/reportUi](php/reportUi) -
   Simple mode for white-collar workers. With ~~blackjack and hookers~~ 3d party libraries.
 
-## Node.js backend developer
+## SQL developer
 
-* [nodejs/hackerrank](nodejs/hackerrank) -
-  my solutions from [https://www.hackerrank.com/](https://www.hackerrank.com/).
-  Node.js
+* [reportCli](php/reportCli) - Hardcore mode for geeks. Clean code, pure SQL. Patterns: YAGNI, KISS.
 
-* [nodejs/loopback](nodejs/loopback) -
-  my first steps with Loopback framework.
-  Typescript
-
-* [nodejs/socket](nodejs/socket) -
-  websocket-server works like a daemon: always is running, listen a port, receive socket-requests, push data back to sockets.
-  Coffescript
+* [php/mvc](php/mvc/blog/model) - ORM.
 
 ## Author
 
